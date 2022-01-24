@@ -2,18 +2,21 @@ package com.sevinc.service;
 
 import com.sevinc.dto.IssueDto;
 import com.sevinc.entity.Issue;
-import org.springframework.data.domain.Page;
+import com.sevinc.util.TPage;
 import org.springframework.data.domain.Pageable;
 
 public interface IssueService {
 
-    IssueDto save(IssueDto issueDto);
 
-    Issue getById(Long id);
+    IssueDto save(IssueDto issue);
 
-    Page<Issue> getAllPageable(Pageable pageable);
+    IssueDto getById(Long id);
 
-    Boolean delete(Long id);
+    TPage<IssueDto> getAllPageable(Pageable pageable);
+
+    Boolean delete(Long issue);
+
+    IssueDto update(Long id, IssueDto project);
 
 
 }

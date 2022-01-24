@@ -1,38 +1,53 @@
 package com.sevinc.service.impl;
 
+import com.sevinc.dto.UserDto;
 import com.sevinc.entity.User;
 import com.sevinc.repository.UserRepository;
 import com.sevinc.service.UserService;
+import com.sevinc.util.TPage;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    public UserDto save(UserDto user) {
+        User u = modelMapper.map(user, User.class);
+        u = userRepository.save(u);
+        user.setId(u.getId());
+        return user;
     }
 
     @Override
-    public User getById(Long id) {
-        return userRepository.getById(id);
+    public UserDto getById(Long id) {
+        User u = userRepository.getOne(id);
+        return modelMapper.map(u, UserDto.class);
     }
 
     @Override
-    public Page<User> getAllPageable(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public TPage<UserDto> getAllPageable(Pageable pageable) {
+        Page<User> data = userRepository.findAll(pageable);
+        TPage<UserDto> respnose = new TPage<UserDto>();
+        respnose.setStat(data, Arrays.asList(modelMapper.map(data.getContent(), UserDto[].class)));
+        return respnose;
     }
 
     @Override
-    public User getByUsername(String username) {
-        return userRepository.getByUsername(username);
+    public UserDto getByUsername(String username) {
+        User u = userRepository.findByUsername(username);
+        return modelMapper.map(u, UserDto.class);
     }
 }

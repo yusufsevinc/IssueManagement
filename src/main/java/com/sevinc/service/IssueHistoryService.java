@@ -1,15 +1,17 @@
 package com.sevinc.service;
 
-import com.sevinc.entity.IssueHistory;
-import org.springframework.data.domain.Page;
+import com.sevinc.dto.IssueHistoryDto;
+import com.sevinc.util.TPage;
 import org.springframework.data.domain.Pageable;
 
 public interface IssueHistoryService {
 
-    IssueHistory save(IssueHistory issueHistory);
+    IssueHistoryDto save(IssueHistoryDto issueHistory);
 
-    IssueHistory getById(Long id);
+    IssueHistoryDto getById(Long id);
 
-    Page<IssueHistory> getAllPageable(Pageable pageable);
+    TPage<IssueHistoryDto> getAllPageable(Pageable pageable);
+
+    Boolean delete(IssueHistoryDto issueHistory);
 
 }

@@ -1,23 +1,24 @@
 package com.sevinc.service;
 
-import com.sevinc.entity.Project;
-import org.springframework.data.domain.Page;
+import com.sevinc.dto.ProjectDto;
+import com.sevinc.util.TPage;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ProjectService {
 
-    Project save(Project project);
+    ProjectDto save(ProjectDto project);
 
-    Project getById(Long id);
+    ProjectDto getById(Long id);
 
-    Page<Project> getAllPageable(Pageable pageable);
+    ProjectDto getByProjectCode(String projectCode);
 
-    List<Project> getByProjectCode(String projectCode);
+    List<ProjectDto> getByProjectCodeContains(String projectCode);
 
-    List<Project> getByProjectCodeContains(String projectCodeContains);
+    TPage<ProjectDto> getAllPageable(Pageable pageable);
 
-    Boolean delete(Long id);
+    Boolean delete(ProjectDto project);
 
+    ProjectDto update(Long id, ProjectDto project);
 }
